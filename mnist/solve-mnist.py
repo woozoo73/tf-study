@@ -19,8 +19,8 @@ def get_test_label(i):
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
 
 x = tf.placeholder(tf.float32, [None, 784])
-W = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
+W = tf.Variable(tf.zeros([784, 10]), 'W')
+b = tf.Variable(tf.zeros([10]), 'b')
 
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 y_ = tf.placeholder(tf.float32, [None, 10])
@@ -28,14 +28,22 @@ y_ = tf.placeholder(tf.float32, [None, 10])
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 
-init = tf.global_variables_initializer()
-
 sess = tf.Session()
+
+# train_writer = tf.summary.FileWriter('/tmp/tensorflow-logs/solve-mnist/train', sess.graph)
+# test_writer = tf.summary.FileWriter('/tmp/tensorflow-logs/solve-mnist/test')
+
+init = tf.global_variables_initializer()
 sess.run(init)
+
+train_writer = tf.train.SummaryWriter("/tmp/tf-logs/train", sess.graph)
+test_writer = tf.train.SummaryWriter("/tmp/tf-logs/test", sess.graph)
+
 
 for step in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
-    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    summary = sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    train_writer.add_summary(summary, step)
 
 # print mnist.test.images[0]
 # print mnist.test.labels[0]
@@ -87,6 +95,7 @@ def max_index(value):
 answers_x = []
 answers_y = []
 
+
 for row in xrange(len(results)):
     index = max_index(results[row])
     value = results[row][index]
@@ -100,5 +109,7 @@ for row in xrange(len(results)):
 # print answers_x
 # print answers_y
 
-plt.hist(answers_x)
-plt.show()
+# plt.hist(answers_x)
+# plt.show()
+
+sess.close()

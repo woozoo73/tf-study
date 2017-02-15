@@ -62,5 +62,5 @@ sess = tf.Session()
 init = tf.global_variables_initializer()
 sess.run(init)
 
-solve(0.01, 1000, 100)
+solve(0.02, 1000, 100)
 draw_cost()
