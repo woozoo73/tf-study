@@ -23,8 +23,8 @@ train = optimizer.minimize(cross_entropy)
 
 sess.run(tf.global_variables_initializer())
 
-for step in range(2):
-    batch = mnist.train.next_batch(2)
+for step in range(1000):
+    batch = mnist.train.next_batch(200)
     xm = batch[0]
     ym = []
     for yu in batch[1]:
@@ -39,17 +39,25 @@ for step in range(2):
 xm = mnist.test.images
 data = {x: xm}
 
-predicts = sess.run(y, {x: xm})
-print(predicts.shape)
-print(predicts)
-
-maxpredicts = sess.run(tf.argmax(predicts,1))
-print(maxpredicts)
-
-for maxpredict in maxpredicts:
-    print maxpredict
+predicts = sess.run(y, {x:xm})
+print("predicts.shape", predicts.shape)
+print("predicts", predicts)
 
 reals = mnist.test.labels
 
+success = 0
+failure = 0
+for i, predict in enumerate(predicts):
+    maxval = None
+    max = -1
+    for j, v in enumerate(predict):
+        if (max == -1) or (maxval < v):
+            maxval = v
+            max = j
+    if max == reals[i]:
+        success = success + 1
+    else:
+        failure = failure + 1
+    print(reals[i], max)
 
-
+print(success, failure, (1.0 * success) / (success + failure))
