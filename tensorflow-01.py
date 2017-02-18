@@ -12,5 +12,5 @@ print a
 print b
 print mul
 
-print sess.run(mul, feed_dict={a: 3, b:2})
+print sess.run(mul, feed_dict={a: 3, b: 2})
 print sess.run(reciprocal, feed_dict={a: 7})
