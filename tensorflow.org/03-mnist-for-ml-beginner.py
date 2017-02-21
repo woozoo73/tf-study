@@ -3,11 +3,10 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
-# mnist = input_data.read_data_sets("MNIST_data")
-sess = tf.InteractiveSession()
 
 x = tf.placeholder(tf.float32)
 y_ = tf.placeholder(tf.float32)
+
 W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
@@ -21,12 +20,12 @@ cross_entropy = tf.reduce_mean(
 optimizer = tf.train.GradientDescentOptimizer(0.5)
 train = optimizer.minimize(cross_entropy)
 
+sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
 for step in range(2001):
     batch = mnist.train.next_batch(100)
     sess.run(train, {x: batch[0], y_: batch[1]})
-    train.run(feed_dict={x: batch[0], y_: batch[1]})
     if step % 100 == 0:
         sess.run(y, feed_dict={x: batch[0], y_: batch[1]})
 
