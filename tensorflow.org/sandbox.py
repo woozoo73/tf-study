@@ -122,13 +122,15 @@ x = [
 ]
 
 print("-- Reshape Tensor [-1]-------------")
+
 print(sess.run(tf.reshape(x, [-1])))
 print(sess.run(tf.reshape(x, [-1, 3, 2])))
 # print(sess.run(tf.reshape(x, [-1, 3, -1])))
 print(sess.run(tf.reshape(x, [-1, 3, 2, 1])))
 
 
-print("-- Reduce mean [-1]-------------")
+print("-- Reduce mean [-1]----------------")
+
 print(x)
 print(sess.run(tf.argmax(x, axis=0)))
 print(sess.run(tf.argmax(x, axis=1)))
