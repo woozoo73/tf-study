@@ -30,11 +30,7 @@ for step in range(2001):
     if step % 100 == 0:
         sess.run(y, feed_dict={x: batch[0], y_: batch[1]})
 
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 print sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels})
-
-labels = mnist.test.labels
-for label in labels:
-    print label

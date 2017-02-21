@@ -106,3 +106,30 @@ w = [[0.], [0.], [0.], [0.], [1.], [0.], [0.], [0.]]
 
 print(sess.run(tf.matmul(x, w)))
 print(sess.run(tf.reduce_mean(tf.matmul(x, w), axis=0)))
+print(sess.run(tf.reduce_mean(tf.reduce_mean(tf.matmul(x, w), axis=0), axis=0)))
+print(sess.run(tf.reduce_mean(tf.matmul(x, w))))
+
+
+# Reshape Tensor
+
+print("-- Reshape Tensor -----------------")
+
+x = [
+    [1, 2, 3, 4, 5, 6],
+    [2, 4, 8, 8, 0, 2],
+    [4, 8, 12, 4, 4, 4],
+    [0, 1, 0, 0, 2, 0],
+]
+
+print("-- Reshape Tensor [-1]-------------")
+print(sess.run(tf.reshape(x, [-1])))
+print(sess.run(tf.reshape(x, [-1, 3, 2])))
+# print(sess.run(tf.reshape(x, [-1, 3, -1])))
+print(sess.run(tf.reshape(x, [-1, 3, 2, 1])))
+
+
+print("-- Reduce mean [-1]-------------")
+print(x)
+print(sess.run(tf.argmax(x, axis=0)))
+print(sess.run(tf.argmax(x, axis=1)))
+print(sess.run(tf.argmax(x, dimension=1)))

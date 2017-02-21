@@ -14,6 +14,7 @@ sess = tf.Session()
 init = tf.global_variables_initializer()
 sess.run(init)
 
-for step in range(10000):
+for step in range(1001):
     sess.run(train, {x: [1, 2, 3, 4], y: [0, -1, -2, -3]})
-    print step, sess.run([W, b])
+    if step % 100 == 0:
+        print step, sess.run([W, b])

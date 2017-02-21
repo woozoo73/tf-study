@@ -10,22 +10,22 @@ print("len(mnist.test.images)", len(mnist.test.images), "len(mnist.test.labels)"
 
 # strategy
 
-counts = [1, 2, 4, 10, 100]
-sizes = [1, 100, 200, 1000, 55000]
-rates = [1., 0.5, 0.1, 0.01, 0.001]
+# epochs = [1, 2, 4, 10]
+# sizes = [1, 100, 200, 1000, 55000]
+# rates = [1., 0.5, 0.1, 0.01, 0.001]
 
-# counts = [1000]
-# sizes = [1]
-# rates = [30000., 1., 0.5, 0.01]
+epochs = [1, 2, 4]
+sizes = [100, 200]
+rates = [1., 0.5, 0.01]
 
-for count in counts:
+for epoch in epochs:
     for size in sizes:
         for rate in rates:
             sess = tf.InteractiveSession()
 
             x = tf.placeholder(tf.float32, name="x")
             y_ = tf.placeholder(tf.float32, name="y_")
-            learning_rate = tf.placeholder(tf.float32, name="a")
+            learning_rate = tf.placeholder(tf.float32, name="learning_rate")
 
             W = tf.Variable(tf.zeros([784, 10]))
             b = tf.Variable(tf.zeros([10]))
@@ -46,7 +46,7 @@ for count in counts:
             elapsed_time = None
 
             start = time.time()
-            for c in range(count):
+            for c in range(epoch):
                 index = 0
                 for step in range(len(mnist.train.images) / size):
                     images = mnist.train.images[index * size:(index + 1) * size]
@@ -91,4 +91,4 @@ for count in counts:
 
             accuracy = (1.0 * success) / (success + failure)
 
-            print([count, size, rate, total_step, elapsed_time, success, failure, accuracy])
+            print([epoch, size, rate, total_step, elapsed_time, success, failure, accuracy])
