@@ -32,6 +32,8 @@ for step in range(2001):
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+ms.show_mnist_images(np.reshape(np.array(sess.run(W)).T, [-1, 28, 28]), title='W', row_size=2, col_size=5)
+
 print sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels})
 
 predictions = sess.run(correct_prediction, {x: mnist.test.images, y_: mnist.test.labels})
