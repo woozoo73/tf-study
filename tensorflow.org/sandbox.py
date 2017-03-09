@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 a = [[1, 2], [1, 1]]
 b = [[3, 0], [3, 7]]
@@ -135,3 +136,14 @@ print(x)
 print(sess.run(tf.argmax(x, axis=0)))
 print(sess.run(tf.argmax(x, axis=1)))
 print(sess.run(tf.argmax(x, dimension=1)))
+
+a = np.array([[1, 2, 3, 4], [1, 3, 5, 7]])
+print(a.T)
+
+a = [[1, 2, 3, 4], [2, 4, 6, 8]]
+print(np.array(a).T)
+
+a = [[1., 2., 3., 4.], [2., 4., 6., 8.]]
+print(a)
+print(sess.run(tf.nn.softmax(np.array(a))))
+print(tf.nn.softmax(a, 1))

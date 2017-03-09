@@ -28,8 +28,6 @@ sess.run(tf.global_variables_initializer())
 for step in range(2001):
     batch = mnist.train.next_batch(100)
     sess.run(train, {x: batch[0], y_: batch[1]})
-    if step % 100 == 0:
-        sess.run(y, feed_dict={x: batch[0], y_: batch[1]})
 
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
@@ -38,23 +36,24 @@ print sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels})
 
 predictions = sess.run(correct_prediction, {x: mnist.test.images, y_: mnist.test.labels})
 p_labels = sess.run(tf.argmax(y, 1), {x: mnist.test.images})
+labels = sess.run(tf.argmax(mnist.test.labels, 1))
 
 print p_labels
 
-correct_indexes = []
-incorrect_indexes = []
-for p_index in range(len(predictions)):
-    if predictions[p_index]:
-        correct_indexes.append(p_index)
+correct_labels = []
+correct_images = []
+incorrect_labels = []
+incorrect_images = []
+
+for i in range(len(predictions)):
+    label = str(labels[i]) + '-->' + str(p_labels[i])
+    image = np.reshape(mnist.test.images[i], [-1, 28, 28])
+    if predictions[i]:
+        correct_labels.append(label)
+        correct_images.append(image)
     else:
-        incorrect_indexes.append(p_index)
+        incorrect_labels.append(label)
+        incorrect_images.append(image)
 
-print("incorrect_indexes : %s" % incorrect_indexes)
-
-images = np.reshape(mnist.test.images, [-1, 28, 28]);
-nega_image = np.reshape([1.] * 28 * 28, [28, 28])
-nega_images = nega_image - images
-labels = sess.run(tf.argmax(mnist.test.labels, 1))
-
-ms.show(images, labels, p_labels, correct_indexes, title='Correct predictions #' + str(len(correct_indexes)))
-ms.show(images, labels, p_labels, incorrect_indexes[0:17], title='Incorrect predictions #' + str(len(incorrect_indexes)))
+ms.show_mnist_images(correct_images, correct_labels, title='Correct predictions #' + str(len(correct_images)))
+ms.show_mnist_images(incorrect_images, incorrect_labels, title='Incorrect predictions #' + str(len(incorrect_images)))
