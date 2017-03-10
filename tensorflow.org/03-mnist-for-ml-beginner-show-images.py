@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import numpy as np
-import matplotlib.pyplot as plt
 import mnist_show as ms
 
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
@@ -32,7 +31,7 @@ for step in range(2001):
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-ms.show_mnist_images(np.reshape(np.array(sess.run(W)).T, [-1, 28, 28]), title='W', row_size=2, col_size=5)
+ms.show_mnist_images(np.array(sess.run(W)).T, labels=range(10), title='W', row=2, col=5)
 
 print sess.run(accuracy, {x: mnist.test.images, y_: mnist.test.labels})
 
@@ -42,14 +41,10 @@ labels = sess.run(tf.argmax(mnist.test.labels, 1))
 
 print p_labels
 
-correct_labels = []
-correct_images = []
-incorrect_labels = []
-incorrect_images = []
-
+correct_labels, correct_images, incorrect_labels, incorrect_images = [], [], [], []
 for i in range(len(predictions)):
     label = str(labels[i]) + '-->' + str(p_labels[i])
-    image = np.reshape(mnist.test.images[i], [-1, 28, 28])
+    image = mnist.test.images[i]
     if predictions[i]:
         correct_labels.append(label)
         correct_images.append(image)

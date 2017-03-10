@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import numpy as np
-import matplotlib.pyplot as plt
 import mnist_show as ms
 
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
@@ -34,7 +33,7 @@ for i, images in enumerate(images_sum):
 # for i, images in enumerate(images_w):
 #     print np.sum(images) * images_count[i]
 
-ms.show_mnist_images(np.reshape(images_w, [-1, 28, 28]), title='W', row_size=2, col_size=5)
+ms.show_mnist_images(images_w, labels=range(10), title='W', row=2, col=5)
 
 # transpose: [10, 784] --> [784, 10]
 W = np.array(images_w).T
@@ -56,14 +55,10 @@ labels = sess.run(tf.argmax(mnist.test.labels, 1))
 
 print p_labels
 
-correct_labels = []
-correct_images = []
-incorrect_labels = []
-incorrect_images = []
-
+correct_labels, correct_images, incorrect_labels, incorrect_images = [], [], [], []
 for i in range(len(predictions)):
     label = str(labels[i]) + '-->' + str(p_labels[i])
-    image = np.reshape(mnist.test.images[i], [-1, 28, 28])
+    image = mnist.test.images[i]
     if predictions[i]:
         correct_labels.append(label)
         correct_images.append(image)
@@ -73,4 +68,3 @@ for i in range(len(predictions)):
 
 ms.show_mnist_images(correct_images, correct_labels, title='Correct predictions #' + str(len(correct_images)))
 ms.show_mnist_images(incorrect_images, incorrect_labels, title='Incorrect predictions #' + str(len(incorrect_images)))
-
