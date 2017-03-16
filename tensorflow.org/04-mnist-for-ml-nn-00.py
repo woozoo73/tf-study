@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 learning_rate = 0.001
-training_epochs = 30
+training_epochs = 3 * 550
 batch_size = 100
 display_step = 1
 

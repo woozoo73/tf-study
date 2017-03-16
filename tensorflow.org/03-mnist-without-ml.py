@@ -33,7 +33,7 @@ for i, images in enumerate(images_sum):
 # for i, images in enumerate(images_w):
 #     print np.sum(images) * images_count[i]
 
-ms.show_mnist_images(images_w, labels=range(10), title='W', row=2, col=5)
+ms.show_mnist_images(images_w, title='W', row=2, col=5)
 
 # transpose: [10, 784] --> [784, 10]
 W = np.array(images_w).T

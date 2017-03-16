@@ -16,7 +16,12 @@ y = tf.matmul(x, W) + b
 
 cross_entropy = tf.reduce_mean(
     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
+# pred = tf.nn.softmax(y)
+# cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(pred), reduction_indices=1))
+
 optimizer = tf.train.GradientDescentOptimizer(0.5)
+# optimizer = tf.train.AdamOptimizer(0.001)
+# optimizer = tf.train.AdadeltaOptimizer(10)
 train = optimizer.minimize(cross_entropy)
 
 sess = tf.Session()

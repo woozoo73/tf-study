@@ -35,9 +35,15 @@ for epoch in epochs:
             # = (? * 10)              + (10, ?) # matmul
             # = (? * 10)              + (?, 10) # broadcasting
 
-            cross_entropy = tf.reduce_mean(
-                tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
+            # cross_entropy = tf.reduce_mean(
+            #     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
+            pred = tf.nn.softmax(y)
+            cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(pred), reduction_indices=1))
+
             optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+            # optimizer = tf.train.AdamOptimizer(0.001)
+            # optimizer = tf.train.AdadeltaOptimizer(10)
+
             train = optimizer.minimize(cross_entropy)
 
             sess.run(tf.global_variables_initializer())
